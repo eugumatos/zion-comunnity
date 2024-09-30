@@ -66,8 +66,8 @@ export const SignInForm = () => {
       </div>
 
       <form id="signInForm" onSubmit={handleSubmit(signInApp)} className="mt-[3.625rem] flex flex-col gap-[25px] my-[57px]">
-        <TextField type="email" label="Email" {...register('email')} />
-        <TextField type="password" label="Senha" maxLength={101} {...register('password')} />
+        <TextField variant="large" type="email" label="Email" {...register('email')} />
+        <TextField variant="large" type="password" label="Senha" maxLength={101} {...register('password')} />
       </form>
 
       <Button className="mb-[15px]" type="submit" form="signInForm" size="large">Entrar</Button>
