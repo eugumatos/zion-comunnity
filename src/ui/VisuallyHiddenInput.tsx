@@ -4,7 +4,6 @@ export const VisuallyHiddenInput = forwardRef<HTMLInputElement, React.InputHTMLA
   (props, ref) => (
     <input
       ref={ref}
-      type="file"
       {...props}
       className="hidden"
     />

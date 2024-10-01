@@ -1,10 +1,5 @@
-import { Montserrat } from "next/font/google"
-import { Icon } from '@/ui/Icon';
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['300', '600', '700'],
-});
+import { Icon } from "@/ui/Icon";
+import { montserrat } from "@/assets/fonts/fonts";
 
 export const AppLogo = () => {
   return (

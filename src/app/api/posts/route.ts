@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 
 import path from "path";
 
+import { getCurrentDateTime } from "@/helpers/getCurrentDateTime";
 import { getPostById } from "@/lib/db/utils/getPostById";
 import { db } from "@/lib/db/connection";
 
@@ -31,6 +32,8 @@ export async function POST(req: NextRequest) {
     const content = formData.get('content') as string;
     const image = formData.get('image') as File | null;
 
+    const createdAt = getCurrentDateTime()
+
     let imageUrl = null;
 
     if (image) {
@@ -44,10 +47,12 @@ export async function POST(req: NextRequest) {
       imageUrl = `/uploads/${fileName}`;
     }
 
-    const stmt = db.prepare('INSERT INTO posts (author, content, imageUrl) VALUES (?, ?, ?)');
-    const result = stmt.run(author, content, imageUrl);
+    const stmt = db.prepare('INSERT INTO posts (author, content, imageUrl, createdAt) VALUES (?, ?, ?, ?)');
+    const result = stmt.run(author, content, imageUrl, createdAt);
 
     const post = getPostById(Number(result.lastInsertRowid));
+
+    console.log(post)
 
     return NextResponse.json(post, { status: 201 });
   } catch (error) {

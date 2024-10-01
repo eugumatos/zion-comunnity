@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '480px',
+      },
       borderRadius: {
         '20': '1.25rem',
       },
@@ -15,7 +18,8 @@ const config: Config = {
         32: "2rem",
       },
       backgroundImage: {
-        'linear-esmerald': 'linear-gradient(206deg, rgba(2,54,50,0.80) 12.04%, rgba(3,71,66,0.80) 40.88%, rgba(3,71,66,0.00) 79%)',
+        'linear-esmerald': 'linear-gradient(203deg, rgba(2,54,50,0.80) 15.00%, rgba(3,71,66,0.80) 20.00%, rgba(3,71,66,0.00) 80%)',
+        'linear-esmerald-lg': 'linear-gradient(180deg, rgba(2,54,50,0.80) 12.04%, rgba(3,71,66,0.80) 40.88%, rgba(3,71,66,0.00) 79%)',
         'linear-morning-glory': 'linear-gradient(90deg, #A0E0DE 0%, #DAFDB8 100%)',
       },
       colors: {

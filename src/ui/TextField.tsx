@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, InputHTMLAttributes, ForwardRefRenderFunction, forwardRef } from 'react';
-import { Public_Sans } from "next/font/google";
+import { publicSans } from "@/assets/fonts/fonts";
 import { applyMask } from "@/helpers/applyMask";
 import { useDisclosure } from "@/hooks/useDisclosure";
+import { FieldError } from "react-hook-form"
 import { Icon } from './Icon';
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -13,15 +14,11 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   mask?: string;
   value?: string;
   variant?: "small" | "medium" | "large";
+  error?: FieldError;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   endAdornment?: React.ReactNode;
   badge?: string | null;
 }
-
-const publicSans = Public_Sans({
-  subsets: ['latin'],
-  weight: ['400', '600'],
-});
 
 const variantClasses = {
   small: "h-8 text-xs",
@@ -30,7 +27,7 @@ const variantClasses = {
 };
 
 const TextFieldBase: ForwardRefRenderFunction<HTMLInputElement, TextFieldProps> = (
-  { label, name, type = "text", mask, value, onChange, variant = "medium", endAdornment, badge, ...props },
+  { label, name, type = "text", mask, error, value, onChange, variant = "medium", endAdornment, badge, ...props },
   ref
 ) => {
   const [internalValue, setInternalValue] = useState(value || '');
@@ -55,7 +52,7 @@ const TextFieldBase: ForwardRefRenderFunction<HTMLInputElement, TextFieldProps> 
     ? 'top-[-8px] left-5 text-xs bg-blue-600 px-1 scale-90'
     : 'top-1/2 left-4 transform -translate-y-1/2 text-gray-500 scale-100';
 
-  // Calcular padding-right baseado na presença do badge e endAdornment
+  const borderColor = !!error ? 'border-red-800' : 'border-slate-400';
   const paddingRight = `${(badge ? 100 : 0) + (endAdornment ? 100 : 0)}px`;
 
   return (
@@ -66,10 +63,16 @@ const TextFieldBase: ForwardRefRenderFunction<HTMLInputElement, TextFieldProps> 
         type={inputType}
         value={inputValue}
         onChange={handleChangeField}
-        className={`${publicSans.className} peer block w-full rounded-lg border text-sm font-normal border-slate-400 bg-transparent ${variantClasses[variant]} px-3.5 py-0`}
-        style={{ paddingRight }} // Aplicar o padding-right dinâmico
+        className={`${publicSans.className} peer block w-full rounded-lg border text-sm font-normal ${borderColor} bg-transparent ${variantClasses[variant]} px-3.5 py-0`}
+        style={{ paddingRight }}
         {...props}
       />
+
+      {!!error &&
+        <span className={`${publicSans.className} font-semibold text-xs text-red-800`}>
+          {error?.message}
+        </span>
+      }
 
       {(badge || endAdornment) && (
         <div className="absolute top-0 bottom-0 right-3 flex items-center gap-2">

@@ -1,10 +1,5 @@
 import { forwardRef } from "react";
-import { Public_Sans } from "next/font/google";
-
-const publicSans = Public_Sans({
-  subsets: ["latin"],
-  weight: ["400"],
-});
+import { publicSans } from "@/assets/fonts/fonts";
 
 interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> { }
 

@@ -1,20 +1,28 @@
-import { differenceInMinutes, differenceInHours, differenceInDays, parseISO } from 'date-fns';
+import {
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+  format
+} from 'date-fns';
 
-export const calculateTimeSincePost = (postDate: string): string => {
-  const postDateObj = parseISO(postDate);
+export const calculateTimeSincePost = (date: string): string => {
+  const postDate = new Date(date);
   const now = new Date();
 
-  const minutes = differenceInMinutes(now, postDateObj);
+  const minutesAgo = differenceInMinutes(now, postDate);
+  const hoursAgo = differenceInHours(now, postDate);
+  const daysAgo = differenceInDays(now, postDate);
 
-  if (minutes >= 1440) {
-    const days = differenceInDays(now, postDateObj);
-    return `${days}d atrás`;
-  } else if (minutes >= 60) {
-    const hours = differenceInHours(now, postDateObj);
-    return `${hours}h atrás`;
-  } else if (minutes >= 1) {
-    return `${minutes}m atrás`;
+  if (minutesAgo < 1) {
+    return 'Agora mesmo';
+  } else if (minutesAgo < 60) {
+    return `${minutesAgo} minutos atrás`;
+  } else if (hoursAgo < 24) {
+    return `${hoursAgo} horas atrás`;
+  } else if (daysAgo < 7) {
+    return `${daysAgo} dias atrás`;
   } else {
-    return 'agora mesmo';
+    return format(postDate, 'dd/MM/yyyy');
   }
+
 };

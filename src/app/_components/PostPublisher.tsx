@@ -13,6 +13,7 @@ import { Post } from "@/domains/Post";
 
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type FormValues = {
   content: string;
@@ -25,6 +26,8 @@ export const PostPublisher = () => {
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const isLargeThan600 = useMediaQuery('(min-width: 600px)');
 
   const { mutate } = useMutation({
     mutationFn: createPost,
@@ -55,6 +58,12 @@ export const PostPublisher = () => {
   };
 
   const handleSubmitForm = async (data: FormValues) => {
+    if (!selectedFile && !data.content) {
+      toast.error('Anexe ou digite antes de publicar.')
+
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append("author", user?.fullName || "");
@@ -82,12 +91,14 @@ export const PostPublisher = () => {
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col w-[145px] h-[144px] justify-center items-center border border-slate-300 border-dotted rounded-20">
-              <Icon name="cam" size={32} />
-              <span className="text-xs text-slate-300 text-center">
-                Add Image or Video
-              </span>
-            </div>
+            {isLargeThan600 &&
+              <div className="flex flex-col w-[145px] h-[144px] justify-center items-center border border-slate-300 border-dotted rounded-20">
+                <Icon name="cam" size={32} />
+                <span className="text-xs text-slate-300 text-center">
+                  Add Image or Video
+                </span>
+              </div>
+            }
           </div>
         )}
 

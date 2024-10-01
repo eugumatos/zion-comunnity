@@ -4,6 +4,7 @@ import { TextField } from "@/ui/TextField";
 import { Icon } from "@/ui/Icon";
 import { VisuallyHiddenInput } from "@/ui/VisuallyHiddenInput";
 import { useMutation } from "@tanstack/react-query";
+
 import Picker from '@emoji-mart/react';
 import toast from "react-hot-toast";
 
@@ -40,7 +41,6 @@ export const FeedCardCommentField = ({ postId }: { postId: string }) => {
     const file = e.target.files?.[0];
     if (file) {
       setAttachedFileName(file.name);
-      setComment(comment + ` [${file.name}]`);
     }
   };
 
@@ -60,6 +60,13 @@ export const FeedCardCommentField = ({ postId }: { postId: string }) => {
     });
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleComment();
+    }
+  };
+
   return (
     <div className="w-full relative">
       <TextField
@@ -69,6 +76,7 @@ export const FeedCardCommentField = ({ postId }: { postId: string }) => {
         value={comment}
         badge={attachedFileName}
         onChange={(e) => setComment(e.target.value)}
+        onKeyDown={handleKeyDown}
         endAdornment={(
           <div className="flex items-center gap-2">
             <div className="cursor-pointer" onClick={handleGalleryClick}>

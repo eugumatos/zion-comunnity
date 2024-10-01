@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 
 import { Card } from "@/ui/Card";
@@ -9,21 +10,26 @@ import { calculateTimeSincePost } from "@/helpers/calculateTimeSincePost";
 import { FeedCardInteraction } from "./FeedCardInteraction";
 import { FeedCardComment } from "./FeedCardComment";
 import { FeedCardCommentField } from "./FeedCardCommentField";
-import { FeedCardSkeleton } from "./FeedCardSkeleton";
 
 import { Avatar } from "@/ui/Avatar";
 
 import Image from 'next/image';
 
-type FeedCardProps = {
-  isLoading?: boolean;
-  post: Post
-}
-
-export const FeedCard = ({ isLoading = false, post }: FeedCardProps) => {
-  if (isLoading) return <FeedCardSkeleton />;
-
+export const FeedCard = ({ post }: { post: Post }) => {
   const { user } = useUser();
+  const [timeAgo, setTimeAgo] = useState('')
+
+  useEffect(() => {
+    console.log(new Date(post.createdAt), '<= hora')
+
+    setTimeAgo(calculateTimeSincePost(post.createdAt));
+
+    const interval = setInterval(() => {
+      setTimeAgo(calculateTimeSincePost(post.createdAt));
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [post.createdAt]);
 
   return (
     <Card>
@@ -32,7 +38,7 @@ export const FeedCard = ({ isLoading = false, post }: FeedCardProps) => {
         <div className="flex flex-col">
           <h2 className={`${nunito.className} text-base font-bold`}>{post.author}</h2>
           <span className={`${nunito.className} text-[0.625rem] text-slate-100 font-normal`}>
-            {calculateTimeSincePost(post.createdAt)}
+            {timeAgo}
           </span>
         </div>
       </div>
@@ -55,7 +61,7 @@ export const FeedCard = ({ isLoading = false, post }: FeedCardProps) => {
           comments={post?.comments}
           likes={post?.likes}
         />
-        <p className={`${montserrat.className} text-sm text-gray-300 font-normal mt-6 px-4`}>
+        <p className={`${montserrat.className} text-sm text-gray-300 font-normal px-4`}>
           {post.content}
         </p>
       </div>
@@ -63,7 +69,7 @@ export const FeedCard = ({ isLoading = false, post }: FeedCardProps) => {
       {post.comments && post.comments.length > 0 &&
         <div className="flex flex-col gap-6 px-4">
           {post.comments?.map((comment: Comments) => (
-            <FeedCardComment {...comment} />
+            <FeedCardComment key={comment.createdAt} {...comment} />
           ))}
         </div>
       }

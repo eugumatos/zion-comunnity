@@ -1,34 +1,28 @@
-import { Montserrat, Work_Sans } from "next/font/google"
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+import { montserrat, workSans } from "@/assets/fonts/fonts";
 import { Button } from "@/ui/Button";
 import { TextField } from "@/ui/TextField";
+import {
+  signInValidationSchema,
+  SignInValidationFormData
+} from "../schema/signInValidationSchema";
+
 import toast from "react-hot-toast";
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['300', '600', '700'],
-});
-
-const workSans = Work_Sans({
-  subsets: ['latin'],
-  weight: ['400'],
-});
-
-type SignInFormData = {
-  email: string;
-  password: string;
-}
-
 export const SignInForm = () => {
-  const { register, handleSubmit } = useForm<SignInFormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<SignInValidationFormData>({
+    resolver: zodResolver(signInValidationSchema)
+  });
+
   const { isLoaded, signIn, setActive } = useSignIn();
 
   const router = useRouter();
 
-  const signInApp = async ({ email, password }: SignInFormData) => {
+  const signInApp = async ({ email, password }: SignInValidationFormData) => {
     if (!isLoaded) {
       return
     }
@@ -46,13 +40,12 @@ export const SignInForm = () => {
           icon: '👏',
         });
 
-        router.push('/')
+        router.push('/');
       } else {
-
         console.error(JSON.stringify(signInAttempt, null, 2))
       }
     } catch (err: any) {
-      toast.error('Erro ao fazer login');
+      toast.error('Erro ao fazer login.');
     }
   }
 
@@ -66,8 +59,19 @@ export const SignInForm = () => {
       </div>
 
       <form id="signInForm" onSubmit={handleSubmit(signInApp)} className="mt-[3.625rem] flex flex-col gap-[25px] my-[57px]">
-        <TextField variant="large" type="email" label="Email" {...register('email')} />
-        <TextField variant="large" type="password" label="Senha" maxLength={101} {...register('password')} />
+        <TextField
+          label="Email"
+          variant="large"
+          error={errors.email}
+          {...register('email')}
+        />
+        <TextField
+          label="Senha"
+          type="password"
+          variant="large"
+          error={errors.password}
+          {...register('password')}
+        />
       </form>
 
       <Button className="mb-[15px]" type="submit" form="signInForm" size="large">Entrar</Button>
