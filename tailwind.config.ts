@@ -33,6 +33,7 @@ const config: Config = {
           300: '#637381',
           200: '#919EAB',
           100: '#7C8FA0',
+          75: '#919EAB1F',
           50: '#94AEBA',
         },
         teal: {

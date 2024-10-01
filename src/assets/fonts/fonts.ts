@@ -7,7 +7,7 @@ export const montserrat = Montserrat({
 
 export const publicSans = Public_Sans({
   subsets: ['latin'],
-  weight: ['400'],
+  weight: ['400', '600'],
 });
 
 export const workSans = Work_Sans({

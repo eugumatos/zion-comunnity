@@ -49,7 +49,7 @@ export default function Feed() {
         <AppLogo />
         <PostPublisher />
 
-        <div className='max-w-[32.75rem] w-full flex flex-col gap-4'>
+        <div className='max-w-[32.75rem] mb-8 w-full flex flex-col gap-4'>
           {posts?.map((post: Post) => (
             <FeedCard isLoading={isLoading} post={{ ...post }} />
           ))}

@@ -2,7 +2,7 @@
 
 import React, { useState, InputHTMLAttributes, ForwardRefRenderFunction, forwardRef } from 'react';
 import { Public_Sans } from "next/font/google";
-import { applyMask } from "@/helpers/apply-mask";
+import { applyMask } from "@/helpers/applyMask";
 import { useDisclosure } from "@/hooks/useDisclosure";
 import { Icon } from './Icon';
 
@@ -15,7 +15,7 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   variant?: "small" | "medium" | "large";
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   endAdornment?: React.ReactNode;
-  badge?: string | null; // Propriedade para exibir a badge
+  badge?: string | null;
 }
 
 const publicSans = Public_Sans({

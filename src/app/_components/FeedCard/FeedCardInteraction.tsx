@@ -40,11 +40,11 @@ export const FeedCardInteraction = ({
         onClick={handleLike}
         style={{ cursor: "pointer" }}
       >
-        <Icon name="heart" size={24} color={isLiked ? "red" : "gray"} />
+        <Icon name="heart" size={24} color={isLiked ? "#c32b34" : "#94AEBA"} />
         <span className="text-sm text-slate-50">{likes.length}</span>
       </div>
       <div className="flex items-center gap-2">
-        <Icon name="comment" size={24} />
+        <Icon name="comment" size={24} color={comments.length > 0 ? "#43a6d3" : "#94AEBA"} />
         <span className="text-sm text-slate-50">{comments.length}</span>
       </div>
     </div>
