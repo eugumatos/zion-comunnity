@@ -42,7 +42,7 @@ export default function Feed() {
   });
 
   useEffect(() => {
-    if (!isLoading && posts?.length === 1) {
+    if (!isLoading && posts?.length === 0) {
       toast('Nenhum post encontrado.', {
         icon: '⚠️',
       });
