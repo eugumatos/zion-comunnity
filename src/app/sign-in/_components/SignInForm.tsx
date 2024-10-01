@@ -50,10 +50,10 @@ export const SignInForm = () => {
   }
 
   return (
-    <div className='mb-16 mx-[82px] flex flex-col'>
+    <div className='mb-16 mx-4 sm:mx-[82px] flex flex-col'>
       <div className='flex flex-col items-center gap-[15px]'>
-        <h1 className={`${montserrat.className} text-4xl font-semibold`}>Acesse sua conta</h1>
-        <span className={`${montserrat.className} text-[0.875rem] c-grey-400`}>Não tem acesso a plataforma?
+        <h1 className={`${montserrat.className} text-2xl sm:text-4xl font-semibold`}>Acesse sua conta</h1>
+        <span className={`${montserrat.className} text-sm c-grey-400`}>Não tem acesso a plataforma?
           <a href='#' className={`${workSans.className} underline text-teal-500 ml-1`}>Clique aqui</a>
         </span>
       </div>
